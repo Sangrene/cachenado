@@ -32,8 +32,8 @@ export const timeCacheResult = <T extends AnyFunction>(
 
 /**
  *
- * @param store le store
- * @param mapping mapping nom de fonction en cache => nom de variable dans le store (observable)
+ * @param store your store
+ * @param mapping mapping between the name of the function hash => key of the variable in the store
  */
 export const createCache = <T extends {}>(store: T, mapping: { [key: string]: keyof T }): CacheType => {
   const internalCache: Map<string, number> = new Map();
