@@ -4,7 +4,7 @@
 
 # Cachenado
 
-Cachenado is a small caching utility which allows you to connect a store / stage manager and function results. There is no true cache included in this library. Instead Cachenado has an included cache which map references to your store key with functions hash.
+Cachenado is a small caching utility which allows you to connect a store / stage manager and function results. There is no data cache included in this library. Instead Cachenado has an included mapping cache which references your store key with functions hash.
 
 ## Install
 
