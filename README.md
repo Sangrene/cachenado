@@ -4,7 +4,11 @@
 
 # Cachenado
 
+## What it is
 Cachenado is a small caching utility which allows you to connect a store / stage manager and function results. There is no data cache included in this library. Instead Cachenado has an included mapping cache which references your store key with functions hash.
+
+## What it is not
+Cachenado will simply store a mapping between your store variable and a function name. __The storing of this function return value is still something you should do__, as you could transform this result before storing it.
 
 ## Install
 
@@ -17,17 +21,17 @@ Cachenado is a small caching utility which allows you to connect a store / stage
 First, you need a cache. Cachenado provides a utility to create it as follow :
 
 ```typescript
-// Let's say that it's my store
+// An object, the most basic store.
 const myVariableStore = {
   applicationUserList: [],
 };
 
-// I map the "getUserList" function to the "applicationUserList" key
+// We map the "getUserList" function to the "applicationUserList" key in the store.
 const funcNameToObservableNameMapping: { [key: string]: keyof typeof myVariableStore } = {
   getUserList: "applicationUserList",
 };
 
-// And I create the cache
+// The cache know nows how to get the "getUserList" function return value from the store.
 const cache = createCache(myVariableStore, funcNameToObservableNameMapping);
 ```
 
@@ -38,7 +42,7 @@ get: (key: string) => { value: any; until: number } | undefined;
 set: (key: string, obj: { value: any; until: number }) => any;
 ```
 
-_I plan to implement utility functions to createCache for Mobx or Redux stores._
+_I plan to implement utility functions to createCache for Mobx or Redux stores but keep in mind that Cachenado is framework agnostic._
 
 ### Add caching to your function
 
@@ -47,9 +51,9 @@ const getUserList = () => {
   return [{ name: "Michel" }, { name: "Michoul" }];
 };
 
-const augmentedGetUserList = timeCacheResult(cache, getUserList, {
+const memoizedGetUserList = timeCacheResult(cache, getUserList, {
   cacheTime: 5000, // In ms. Optionnal, default 10000
-  nameToCache: "getUsers", // Optionnal, default is the cached function name
+  nameToCache: "getMyUsers", // Optionnal, default is the cached function name
 });
 ```
 

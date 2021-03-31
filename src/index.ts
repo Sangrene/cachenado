@@ -11,11 +11,15 @@ export type CacheType = {
 export const timeCacheResult = <T extends AnyFunction>(
   cache: CacheType,
   func: T,
-  { cacheTime = CACHE_DURATION.AVERAGE, nameToCache }: { cacheTime?: number; nameToCache?: string },
+  opts?: { cacheTime?: number; nameToCache?: string },
 ): T => {
+  const { cacheTime = CACHE_DURATION.AVERAGE, nameToCache = func.name } = opts ?? {
+    cacheTime: CACHE_DURATION.AVERAGE,
+    nameToCache: func.name,
+  };
   return function (...args: any[]) {
     const curTime = new Date().getTime();
-    const hash = (nameToCache || func.name) + [].join.call(args);
+    const hash = nameToCache + [].join.call(args);
     const cacheEntry = cache.get(hash);
     if (cacheEntry !== undefined && cacheEntry.until > curTime) {
       return cacheEntry.value as GetReturnType<T>;
@@ -36,11 +40,12 @@ export const timeCacheResult = <T extends AnyFunction>(
  * @param mapping mapping between the name of the function hash => key of the variable in the store
  */
 export const createCache = <T extends {}>(store: T, mapping: { [key: string]: keyof T }): CacheType => {
+  // {hash: until}
   const internalCache: Map<string, number> = new Map();
 
   /**
    *
-   * @param key Func name + arguments (hash). Ex: "myFunc,2"
+   * @param key Func name + arguments (hash). Ex: "myFunc2"
    */
   const get = (key: string) => {
     const cacheEntry = internalCache.get(key);

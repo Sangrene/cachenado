@@ -12,7 +12,9 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
   },
   "include": ["src"]
 }

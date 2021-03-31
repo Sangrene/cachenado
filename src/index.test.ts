@@ -30,7 +30,7 @@ describe("Cachenado", () => {
       countCall++;
       return [{ user: "Michel" }, { user: "Michoul" }];
     };
-    const cachedGetUserList = timeCacheResult(cache, getUserList, {});
+    const cachedGetUserList = timeCacheResult(cache, getUserList);
     cachedGetUserList("lala");
     cachedGetUserList("lala");
     expect(countCall).to.be.equal(1);
@@ -42,7 +42,7 @@ describe("Cachenado", () => {
       countCall++;
       return arg;
     };
-    const cachedGetUserList = timeCacheResult(cache, getUserList, {});
+    const cachedGetUserList = timeCacheResult(cache, getUserList);
     expect(cachedGetUserList("lala")).to.equal("lala");
     expect(cachedGetUserList("lolo")).to.equal("lolo");
     expect(countCall).to.be.equal(2);
